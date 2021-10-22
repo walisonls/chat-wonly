@@ -1,16 +1,24 @@
-const express = require("express");
-const app = express();
-var path = require("path");
+const app = require("express")();
+// npm install express socket.io
+const http = require("http").createServer(app);
 
-app.use(express.static(path.join(__dirname, "public")));
-
-app.get("/",(req,res)=>{
-    res.sendFile(__dirname + "/pages/home.html")
-})
+const io = require("socket.io")(http);
 
 
-const adress = 5050;
-app.listen(adress,()=>{
-    console.log("Server Runing....")
-    console.log("Open page in: http://localhost:"+adress+"/");
-})
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/pages/index.html");
+});
+
+io.on("connection", (socket) => {
+  //io.emit('conectado','Estou conectado!');
+
+  socket.broadcast.emit("novo usuario", "Um novo usuário se conectou!");
+
+  socket.on("disconnect", () => {
+    console.log("Desconectado.");
+  });
+});
+
+http.listen(3000, () => {
+  console.log("listening on *:3000");
+});
