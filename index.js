@@ -1,7 +1,8 @@
-const app = require("express")();
-// npm install express socket.io
-const http = require("http").createServer(app);
+const { Socket } = require("socket.io");
 
+const app = require("express")();
+const http = require("http").createServer(app);
+// npm install express socket.io
 const io = require("socket.io")(http);
 
 
@@ -10,12 +11,15 @@ app.get("/", (req, res) => {
 });
 
 io.on("connection", (socket) => {
-  //io.emit('conectado','Estou conectado!');
 
-  socket.broadcast.emit("novo usuario", "Um novo usuário se conectou!");
+  io.emit('conectado','Estou conectado')
 
+  socket.broadcast.emit('novo usuario', 'novo usuario se conectou!')
+
+
+  console.log("Usuario conectado!");
   socket.on("disconnect", () => {
-    console.log("Desconectado.");
+    console.log("Desconectado!");
   });
 });
 
