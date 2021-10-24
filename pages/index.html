@@ -18,9 +18,20 @@
       var socket = io();
       let nome = prompt("Qual o seu nome?")
 
-      var messages = document.getElementById('messages')
-
       alert("Bom vindo ao Danki Chat " + nome)
+
+      var messages = document.getElementById('messages');
+      var form = document.getElementById('form');
+      var input = document.getElementById('input');
+
+      form.addEventListener('submit',(e)=>{
+        e.preventDefault();
+        if(input.value){
+          socket.emit('chat message',{msg:input.value, nome:nome});
+          input.value='';
+          alert('Menssagem enviada com sucesso!!');
+        }
+      })
     </script>
   </body>
 </html>

@@ -15,7 +15,11 @@ app.get("/", (req, res) => {
 
 io.on("connection", (socket) => {
 
+  socket.on('chat message',(obj)=>{
+    console.log(obj);
+  })
 
+  
 });
 
 http.listen(3000, () => {
