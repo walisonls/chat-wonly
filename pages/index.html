@@ -29,9 +29,27 @@
         if(input.value){
           socket.emit('chat message',{msg:input.value, nome:nome});
           input.value='';
-          alert('Menssagem enviada com sucesso!!');
+          // alert('Menssagem enviada com sucesso!!');
         }
       })
+
+      socket.on('chat message',function(obj){
+        if( obj.nome == nome ){
+          var item = document.createElement('li');
+          item.style.backgroundColor = 'gray';
+          item.textContent = obj.nome + ': ' + obj.msg;
+          messages.appendChild(item);
+          window.scrollTo(0, document.body.scrollHeight)
+        }else{
+          var item = document.createElement('li');
+          item.style.backgroundColor = 'black';
+          item.style.color = 'white';
+          item.textContent = obj.nome + ': ' + obj.msg;
+          messages.appendChild(item);
+          window.scrollTo(0, document.body.scrollHeight)
+        }
+      })
+
     </script>
   </body>
 </html>
